@@ -1,0 +1,4 @@
+{"task_id":"006_sensitivity","context_type":"synthetic_or_code","allowed_files":["src/transplant_twin/simulation/sensitivity_estimator.py"]}
+Write ONLY one short numerical function module, no demo block. Full content under 80 lines. Return concise descriptions, not extra test code.
+Function jansen_total_effect(f_a: NDArray[np.float64], f_b: NDArray[np.float64], f_ab: NDArray[np.float64]) -> NDArray[np.float64].
+f_a and f_b finite 1D same nonempty n>=2; f_ab finite 2D n x d d>=1, where column j contains model evaluations with column j of A replaced by B. Validate shapes and finite. V = np.var(np.concatenate([f_a,f_b]),ddof=1); V must>0 else ValueError. Total indices = .5*np.mean((f_a[:,None]-f_ab)**2,axis=0)/V. Return float64 vector. No clipping indices to[0,1], finite sample values may exceed1. np imported, NDArray from numpy.typing. No medical language.

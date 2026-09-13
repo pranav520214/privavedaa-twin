@@ -7,3 +7,8 @@ __pycache__/
 *.duckdb*
 .env
 artifacts/
+.context/autopilot*.log
+.context/autopilot*.json
+.context/autopilot*.lock
+.context/autopilot.stop
+.tasks/results/

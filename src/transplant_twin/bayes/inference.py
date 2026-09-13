@@ -109,7 +109,9 @@ def fit(
         ess_bulk=bulk if np.isfinite(bulk) else None,
         ess_tail=tail if np.isfinite(tail) else None,
         sampler="PyMC Slice, log clearance, cores=1",
-        notes="Divergences do not apply to Slice. Conditional on known synthetic nuisance parameters.",
+        notes=(
+            "Divergences do not apply to Slice. Conditional on known synthetic nuisance parameters."
+        ),
     )
     latent = np.array([model.simulate(times, float(cl)) for cl in samples.ravel()])
     predictive = latent * np.exp(

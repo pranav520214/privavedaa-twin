@@ -1,0 +1,3 @@
+{"task_id":"008_extraction_review","context_type":"synthetic_or_code","allowed_files":[]}
+Review a mock-only extraction adapter design. Max3 concise risks and3 tests. No files/patch.
+No document text sent to a live model. Mock returns synthetic JSON candidates. Pydantic validates strict PK observations, timezone timestamps and units; candidates status pending/rejected/validated. Timeline entry requires status validated and a nonempty explicit research reviewer id. Missing fields never invented. Live MedGemma adapter raises NotImplementedError until investigator approves a local extraction and validation protocol. Numerical core independent of this adapter. Suggest meaningful tests, without fabricating medical facts.

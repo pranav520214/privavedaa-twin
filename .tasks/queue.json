@@ -1,0 +1,5 @@
+[
+  {"id":"006_sensitivity_coder","role":"coder","task_file":".tasks/006_sensitivity.md"},
+  {"id":"007_information_coder","role":"coder","task_file":".tasks/007_information.md"},
+  {"id":"008_extraction_review","role":"reviewer","task_file":".tasks/008_extraction_review.md"}
+]

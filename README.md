@@ -24,4 +24,18 @@ py -3.12 -m venv .venv
 
 Ollama is optional for running the scientific core. It is used for bounded development
 proposals, never for numerical calculations. See [local workers](docs/ollama_agents.md).
+
+## Local autopilot development
+
+Start the proposal-only development loop from PowerShell:
+
+```powershell
+.venv\Scripts\python tools\autopilot_development.py --watch --max-tasks 12
+```
+
+It reads the curated queue in `.tasks/queue.json`, sends one scoped task at a time to
+the installed loopback Ollama model, validates the structured response, and writes it to
+`.tasks/results/`. It never applies a patch, executes worker code, downloads a model, or
+handles patient records. Inspect status with `--status`; request a stop with `--stop`.
+Only an orchestrator review can move a proposal into the repository.
 Implementation status and evidence are maintained in `.context/phase_gates.md`.
