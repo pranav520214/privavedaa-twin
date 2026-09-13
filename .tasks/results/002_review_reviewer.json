@@ -1,0 +1,34 @@
+{
+  "task_id": "002_review",
+  "status": "completed",
+  "summary": "The design appears to be robust and follows best practices for handling missingness, units, and conversions. However, there are a few areas that could be improved or expanded upon for better safety and completeness.",
+  "files_to_create": [],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "Test that conversion raises a ValueError if the source and target units are not compatible.",
+    "Test that conversion raises a ValueError if the source and target scales are not compatible.",
+    "Test that conversion raises a ValueError if the source and target units are not in the whitelist.",
+    "Test that conversion raises a ValueError if the source and target scales are not in the whitelist.",
+    "Test that conversion raises a ValueError if the source and target units are not in the mass whitelist.",
+    "Test that conversion raises a ValueError if the source and target scales are not in the mass whitelist.",
+    "Test that conversion raises a ValueError if the source and target units are not in the mass whitelist.",
+    "Test that conversion raises a ValueError if the source and target scales are not in the mass whitelist."
+  ],
+  "assumptions": [
+    "The design assumes that the input values are valid and that the conversion factors are known and accurate."
+  ],
+  "risks": [
+    "The design does not handle cases where the input values are not valid or where the conversion factors are not known or accurate.",
+    "The design does not handle cases where the input values are missing or where the missingness is not correctly handled.",
+    "The design does not handle cases where the input values are not in the correct units or scales.",
+    "The design does not handle cases where the input values are not in the correct mass units.",
+    "The design does not handle cases where the input values are not in the correct mass scales.",
+    "The design does not handle cases where the input values are not in the correct mass units and scales."
+  ],
+  "questions": [
+    "What are the assumptions made by the design?",
+    "What are the risks associated with the design?",
+    "What are the missing tests or safety issues that remain?"
+  ]
+}

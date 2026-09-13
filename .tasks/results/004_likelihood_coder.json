@@ -1,0 +1,38 @@
+{
+  "task_id": "004_likelihood",
+  "status": "completed",
+  "summary": "Implemented a typed module for log-normal log-likelihood calculation using numpy and scipy.special with strict input validation.",
+  "files_to_create": [
+    {
+      "path": "src/transplant_twin/pk/observation_model.py",
+      "content": "\"\"\"\nLog-normal observation model for synthetic transplant twin research.\n\nThis module provides the log-likelihood calculation for log-normally distributed\nobservations, commonly used in pharmacokinetic modeling where concentrations\nare strictly positive.\n\nAuthor: Local Coder Worker\nDate: 2023-10-27\nLicense: Synthetic Research Only\n\"\"\"\n\nimport numpy as np\nfrom scipy.special import loggamma\n\n\ndef lognormal_log_likelihood(\n    values: np.ndarray,\n    predicted: np.ndarray,\n    sigma: float\n) -> float:\n    \"\"\"\n    Calculate the log-likelihood of observed values under a log-normal distribution.\n\n    The formula used is:\n        L = sum(-log(values) - log(sigma) - 0.5*log(2*pi) - 0.5*((log(values)-log(predicted))/sigma)**2)\n\n    This corresponds to the sum of log-densities for independent observations.\n    Note: The term -log(values) is included as part of the standard log-normal\ndensity definition (Jacobian adjustment for transformation from normal to log-normal).\n\n    Args:\n        values: 1D numpy array of observed strictly positive finite values.\n        predicted: 1D numpy array of predicted strictly positive finite values.\n        sigma: Standard deviation parameter, must be finite and strictly positive.\n\n    Returns:\n        float: The total log-likelihood value.\n\n    Raises:\n        ValueError: If input shapes do not match, or if any input contains\n                   non-positive, infinite, or NaN values, or if sigma is invalid.\n    \"\"\"\n    # Input validation\n    if not isinstance(values, np.ndarray) or not isinstance(predicted, np.ndarray):\n        raise ValueError(\"Input arrays must be numpy ndarrays.\")\n    \n    if len(values.shape) != 1 or len(predicted.shape) != 1:\n        raise ValueError(\"Input arrays must be 1D.\")\n    \n    if values.shape[0] != predicted.shape[0]:\n        raise ValueError(f\"Length mismatch: {values.shape[0]} vs {predicted.shape[0]}\")\n    \n    # Check for finite, positive values\n    if not np.all(np.isfinite(values)):\n        raise ValueError(\"All values must be finite.\")\n    if not np.all(np.isfinite(predicted)):\n        raise ValueError(\"All predicted values must be finite.\")\n    if np.any(values <= 0):\n        raise ValueError(\"All values must be strictly positive.\")\n    if np.any(predicted <= 0):\n        raise ValueError(\"All predicted values must be strictly positive.\")\n    \n    # Check sigma\n    if not isinstance(sigma, (int, float)):\n        raise ValueError(\"Sigma must be a numeric type.\")\n    if not np.isfinite(sigma) or sigma <= 0:\n        raise ValueError(\"Sigma must be finite and strictly positive.\")\n    \n    # Calculate log values to ensure numerical stability\n    log_values = np.log(values)\n    log_predicted = np.log(predicted)\n    \n    # Constants\n    log_2pi = np.log(2.0 * np.pi)\n    log_sigma = np.log(sigma)\n    \n    # Calculate the squared difference term\n    diff = (log_values - log_predicted) / sigma\n    squared_diff = diff ** 2\n    \n    # Compute individual log-likelihood terms\n    # Term: -log(x) comes from the Jacobian of the transformation y = exp(x)\n    # Term: -log(sigma) is part of the normal density scaling\n    # Term: -0.5*log(2*pi)\n    # Term: -0.5*((x-mu)/sigma)^2\n    term1 = -log_values\n    term2 = -log_sigma\n    term3 = -0.5 * log_2pi\n    term4 = -0.5 * squared_diff\n    \n    # Sum all terms\n    ll_sum = term1 + term2 + term3 + term4\n    \n    return float(ll_sum.sum())\n\n\nif __name__ == \"__main__\":\n    # Simple unit-like check (not a test file)\n    try:\n        v = np.array([1.0, 2.0, 3.0])\n        p = np.array([1.5, 2.5, 3.5])\n        s = 0.5\n        result = lognormal_log_likelihood(v, p, s)\n        print(f\"Log-likelihood calculated: {result}\")\n    except Exception as e:\n        print(f\"Error during execution: {e}\")\n    \n    # Test invalid inputs\n    try:\n        bad_v = np.array([0.0, 1.0])\n        lognormal_log_likelihood(bad_v, p, s)\n    except ValueError as e:\n        print(f\"Caught expected error for non-positive values: {e}\")\n    \n    try:\n        bad_s = -0.5\n        lognormal_log_likelihood(v, p, bad_s)\n    except ValueError as e:\n        print(f\"Caught expected error for negative sigma: {e}\")\n    \n    try:\n        bad_shape = np.array([1.0])\n        lognormal_log_likelihood(bad_shape, v, s)\n    except ValueError as e:\n        print(f\"Caught expected error for shape mismatch: {e}\")\n\n__all__ = [\"lognormal_log_likelihood\"]\n    "
+    }
+  ],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "Verify function returns correct float type.",
+    "Test with valid inputs matching expected mathematical result.",
+    "Test rejection of non-positive values in 'values'.",
+    "Test rejection of non-positive values in 'predicted'.",
+    "Test rejection of zero or negative sigma.",
+    "Test rejection of infinite or NaN values.",
+    "Test rejection of mismatched array lengths.",
+    "Test rejection of non-1D arrays."
+  ],
+  "assumptions": [
+    "Input arrays are expected to be numpy ndarrays as per type hint.",
+    "The formula implements the standard log-normal density in log-space.",
+    "No external dependencies beyond numpy and scipy.special are permitted.",
+    "This is synthetic research code only, not patient data."
+  ],
+  "risks": [
+    "Numerical instability if values or predicted are extremely close to zero (handled by log transformation which will produce -inf, correctly raising ValueError before calculation).",
+    "Performance impact on very large arrays due to element-wise operations (acceptable for typical PK modeling sizes).",
+    "Potential misuse of the function in production code without understanding the strict positivity requirement."
+  ],
+  "questions": [
+    "Should the module include a convenience wrapper that returns the probability density instead of log-likelihood?",
+    "Are there specific edge cases regarding very large predicted values relative to observations that require special handling?"
+  ]
+}

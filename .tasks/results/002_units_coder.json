@@ -1,0 +1,19 @@
+{
+  "task_id": "002_units",
+  "status": "completed",
+  "summary": "A small unit conversion module has been created to handle mass and concentration conversions.",
+  "files_to_create": [
+    {
+      "path": "src/transplant_twin/domain/units.py",
+      "content": "from typing import Union\nimport math\n\ndef convert(value: float, source: str, target: str) -> float:\n    '''\n    Convert a value from one unit to another.\n\n    Args:\n        value (float): The value to convert.\n        source (str): The source unit (e.g., 'mg', 'µg', 'ng', 'mg/L', 'ng/mL').\n        target (str): The target unit (e.g., 'mg', 'µg', 'ng', 'mg/L', 'ng/mL').\n\n    Returns:\n        float: The converted value.\n\n    Raises:\n        ValueError: If the conversion is not possible or if the input values are NaN/Inf.\n    '''\n\n    # Define conversion scales\n    scales = {\n        'mg': 1,\n        'µg': 0.001,\n        'ng': 0.000001,\n        'mg/L': 1,\n        'ng/mL': 0.001\n    }\n\n    # Validate input values\n    if math.isnan(value) or math.isinf(value):\n        raise ValueError('Input value cannot be NaN or Inf.')\n\n    # Validate source and target units\n    if source not in scales or target not in scales:\n        raise ValueError('Unknown unit. Supported units are: mg, µg, ng, mg/L, ng/mL.')\n\n    # Validate cross-dimension conversion\n    if source == 'mg/L' and target == 'ng/mL' or source == 'ng/mL' and target == 'mg/L':\n        raise ValueError('Cross-dimension conversion is not allowed.')\n\n    # Perform conversion\n    source_scale = scales[source]\n    target_scale = scales[target]\n    converted_value = value * source_scale / target_scale\n\n    # Check if the result is finite\n    if not math.isfinite(converted_value):\n        raise ValueError('Conversion result is not finite.')\n\n    return converted_value"
+    }
+  ],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "import unittest\nfrom src.transplant_twin.domain.units import convert\n\nclass TestUnitsConversion(unittest.TestCase):\n    def test_convert_mg_to_mg(self):\n        self.assertAlmostEqual(convert(100, 'mg', 'mg'), 100.0)\n\n    def test_convert_mg_to_ug(self):\n        self.assertAlmostEqual(convert(100, 'mg', 'µg'), 100000.0)\n\n    def test_convert_mg_to_ng(self):\n        self.assertAlmostEqual(convert(100, 'mg', 'ng'), 100000000.0)\n\n    def test_convert_mg_to_mg_per_l(self):\n        self.assertAlmostEqual(convert(100, 'mg', 'mg/L'), 100.0)\n\n    def test_convert_mg_to_ng_per_ml(self):\n        self.assertAlmostEqual(convert(100, 'mg', 'ng/mL'), 100000.0)\n\n    def test_convert_mg_per_l_to_mg(self):\n        self.assertAlmostEqual(convert(100, 'mg/L', 'mg'), 100.0)\n\n    def test_convert_mg_per_l_to_ng_per_ml(self):\n        self.assertAlmostEqual(convert(100, 'mg/L', 'ng/mL'), 100000.0)\n\n    def test_convert_mg_per_ml_to_mg(self):\n        self.assertAlmostEqual(convert(100, 'ng/mL', 'mg'), 100000.0)\n\n    def test_convert_mg_per_ml_to_mg_per_l(self):\n        self.assertAlmostEqual(convert(100, 'ng/mL', 'mg/L'), 100.0)\n\n    def test_convert_unknown_unit(self):\n        with self.assertRaises(ValueError):\n            convert(100, 'mg', 'g')\n\n    def test_convert_cross_dimension(self):\n        with self.assertRaises(ValueError):\n            convert(100, 'mg/L', 'ng/mL')\n\n    def test_convert_nan_value(self):\n        with self.assertRaises(ValueError):\n            convert(float('nan'), 'mg', 'mg')\n\n    def test_convert_inf_value(self):\n        with self.assertRaises(ValueError):\n            convert(float('inf'), 'mg', 'mg')\n\nif __name__ == '__main__':\n    unittest.main()"
+  ],
+  "assumptions": [],
+  "risks": [],
+  "questions": []
+}

@@ -1,0 +1,4 @@
+{"task_id":"005_metrics","context_type":"synthetic_or_code","allowed_files":["src/transplant_twin/validation/metrics.py"]}
+Implement small typed module numpy and scipy.special.logsumexp.
+def metrics(actual: NDArray[np.float64], samples: NDArray[np.float64], log_densities: NDArray[np.float64]) -> dict[str,float|None].
+actual nonempty finite 1D n; samples finite 2D draws x n with draws>=2; log_densities finite same shape. Reject invalid via ValueError. Median across draws -> pred. Error=pred-actual. Return mae, rmse, bias, mdape (100*median abs(error/actual) if ALL actual>0 else None), coverage_95 (actual between sample quantiles .025/.975 inclusive), width_95 (mean upper-lower), nlpd=-mean(logsumexp(log_densities,axis=0)-log(draws)). No fabricated numbers. Density array must represent observation likelihood evaluated at actual for each parameter sample (not density of sample itself). No other files; concise test descriptions only.

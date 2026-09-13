@@ -1,0 +1,7 @@
+ollama:
+  base_url: http://localhost:11434
+local_agents:
+  coder: qwen3.5:4b
+  reviewer: qwen3.5:4b
+  test_writer: qwen3.5:4b
+  documentation: auto

@@ -1,0 +1,27 @@
+{
+  "task_id": "001_smoke",
+  "status": "completed",
+  "summary": "Smoke test for the `add` function implemented in `tools/smoke_worker.py`.",
+  "files_to_create": [
+    {
+      "path": "tools/smoke_worker.py",
+      "content": "def add(a: int, b: int) -> int:\n    return a + b"
+    }
+  ],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "negative",
+    "zero",
+    "positive"
+  ],
+  "assumptions": [
+    "The function `add` should correctly return the sum of two integers."
+  ],
+  "risks": [
+    "No known risks associated with the implementation."
+  ],
+  "questions": [
+    "Is the function `add` correctly handling negative numbers?"
+  ]
+}

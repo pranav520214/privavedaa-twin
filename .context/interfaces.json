@@ -1,0 +1,9 @@
+{
+  "model": "Synthetic only until published model independently verified",
+  "units": {"time": "h", "exposure": "mg", "concentration": "ng/mL", "clearance": "L/h", "volume": "L"},
+  "inference": "Prior log(clearance) ~ Normal(log(4),0.5), fixed known synthetic nuisance parameters; lognormal observation noise",
+  "sequential": "Refit original prior to all observed data once; strictly chronological updates",
+  "prediction": "Samples by time, latent and observation draws; median and 95 percent intervals",
+  "boundaries": "API creates synthetic cohort server-side; no client patient records or exposure optimization",
+  "workers": "Structured JSON proposals only, orchestrator integrates explicitly"
+}

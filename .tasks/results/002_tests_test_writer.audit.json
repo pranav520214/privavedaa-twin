@@ -1,0 +1,6 @@
+{
+  "model": "qwen2.5-coder:3b",
+  "task_sha256": "d0c5a6cd04011890bcad40d5a330a5aec3b768e6bade9d6ad5dde0b4c7e19553",
+  "response_model": "qwen2.5-coder:3b",
+  "status": "proposal_only_not_approved"
+}

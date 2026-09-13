@@ -1,0 +1,31 @@
+{
+  "task_id": "002_tests",
+  "status": "completed",
+  "summary": "pytest tests for the `convert` function in `transplant_twin.domain.units` module.",
+  "files_to_create": [
+    {
+      "path": "tests/unit/test_units.py",
+      "content": "import pytest\nfrom transplant_twin.domain.units import convert\n\n\ndef test_convert_mg_to_mcg(value, source, target, expected):\n    result = convert(value, source, target)\n    assert result == pytest.approx(expected), f'Expected {expected}, got {result}'\n\n\ndef test_convert_mg_to_ng(value, source, target, expected):\n    result = convert(value, source, target)\n    assert result == pytest.approx(expected), f'Expected {expected}, got {result}'\n\n\ndef test_convert_mg_per_l_to_ng_per_ml(value, source, target, expected):\n    result = convert(value, source, target)\n    assert result == pytest.approx(expected), f'Expected {expected}, got {result}'\n\n\ndef test_convert_mg_to_mg(value, source, target, expected):\n    result = convert(value, source, target)\n    assert result == pytest.approx(expected), f'Expected {expected}, got {result}'\n\n\ndef test_convert_mg_to_mg_rejects(value, source, target):\n    with pytest.raises(ValueError):\n        convert(value, source, target)\n\n\ndef test_convert_unknown_unit_rejects(value, source, target):\n    with pytest.raises(ValueError):\n        convert(value, source, target)\n\n\ndef test_convert_nan_inf_rejects(value, source, target):\n    with pytest.raises(ValueError):\n        convert(value, source, target)\n"
+    }
+  ],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "test_convert_mg_to_mcg",
+    "test_convert_mg_to_ng",
+    "test_convert_mg_per_l_to_ng_per_ml",
+    "test_convert_mg_to_mg",
+    "test_convert_mg_to_mg_rejects",
+    "test_convert_unknown_unit_rejects",
+    "test_convert_nan_inf_rejects"
+  ],
+  "assumptions": [
+    "The `convert` function is correctly implemented in `transplant_twin.domain.units` module."
+  ],
+  "risks": [
+    "The tests may not cover all edge cases or potential issues with the `convert` function."
+  ],
+  "questions": [
+    "Are there any specific edge cases or potential issues with the `convert` function that need to be covered in the tests?"
+  ]
+}

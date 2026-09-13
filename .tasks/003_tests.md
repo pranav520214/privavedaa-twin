@@ -1,0 +1,3 @@
+{"task_id":"003_tests","context_type":"synthetic_or_code","allowed_files":[]}
+Act as numerical test designer. Return at most eight concise test descriptions in tests_proposed; no files or patch.
+Synthetic oral one compartment: k=CL/V, concentration(t)=1000 F A/V * ka * (exp(-kt)-exp(-ka t))/(ka-k). t<0 zero; ka=k limit 1000 F A/V*ka*t*exp(-ka*t). Repeated exposures superpose. Independent scipy solve_ivp reference starts gut=F*A, central=0 and uses dGut=-ka gut, dCentral=ka gut-k central. Concentration=1000 central/V. Times hours; amount mg; concentration ng/mL. Arbitrary synthetic parameters CL=4,V=40,ka=1,F=.5. Need analytic known value, equality limit, ODE agreement, invalid data and extreme value cases. No medical claims.

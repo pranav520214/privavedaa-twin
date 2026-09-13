@@ -1,0 +1,27 @@
+{
+  "task_id": "004_tests_review",
+  "status": "completed",
+  "summary": "Review of Bayesian integration code for synthetic research context.",
+  "files_to_create": [],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "Test case 1: Verify posterior predictive coverage matches known synthetic truth within 95% confidence interval using fixed seed 42 and independent lognormal noise.",
+    "Test case 2: Validate convergence criteria by checking Rhat <= 1.01 and ESS >= 400 across four chains for chronological update counts 0, 1, and 2.",
+    "Test case 3: Ensure independent quadrature mean of 2401-point log-clearance samples aligns with posterior mean within 2.5% tolerance."
+  ],
+  "assumptions": [
+    "Synthetic parameters V, ka, F, sigma are fixed by design and do not leak into ground truth.",
+    "PyMC Slice sampler is correctly configured without HMC divergence flags.",
+    "All metrics (Rhat, ESS, coverage) are computed exclusively in Python without double counting."
+  ],
+  "risks": [
+    "Risk 1: Potential for numerical instability if Rhat approaches 1.01 or ESS falls below 400 due to slice sampler inefficiency.",
+    "Risk 2: Risk of misinterpretation if posterior predictive coverage deviates from expected 95% interval despite correct synthetic design.",
+    "Risk 3: Risk of computational overhead from running independent quadrature on 2401 points for each update cycle."
+  ],
+  "questions": [
+    "Does the current implementation strictly prevent ground truth leakage during prior refitting?",
+    "Are there any hidden dependencies in PyTensor as_op that could affect reproducibility beyond seed 42?"
+  ]
+}

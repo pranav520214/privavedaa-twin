@@ -1,0 +1,25 @@
+{
+  "task_id": "003_tests",
+  "status": "completed",
+  "summary": "Proposed 8 concise synthetic numerical test descriptions for oral one-compartment pharmacokinetics model verification.",
+  "files_to_create": [],
+  "files_to_modify": [],
+  "patch": "",
+  "tests_proposed": [
+    "Test 1: Analytic Solution Verification at t=24h. Parameters: CL=4, V=40, ka=1, F=0.5. Expected Concentration = 1000 * 0.5/40 * 1 * (exp(-1*24)-exp(1*24))/(1-1) [Limit case]. Note: Since ka=k in this specific parameter set, the denominator is zero; use L'Hopital's rule or the limit formula C(t) = 1000 * F/V * ka * t * exp(-ka*t). Calculate expected value using limit formula.",
+    "Test 2: ODE System Agreement. Parameters: CL=4, V=40, ka=1, F=0.5. Initial state [Gut=0, Central=0]. Input bolus mg = 1000 * F. Run scipy solve_ivp with dGut=-ka*Gut, dCentral=ka*Gut-k*Central over t=[0, 24]. Verify final Central/V matches analytic limit value.",
+    "Test 3: Superposition Principle. Parameters: CL=4, V=40, ka=1, F=0.5. Run two separate simulations: Exposure A at t=0 with dose D; Exposure B at t=12h with dose D. Sum the concentration profiles from both runs and compare against a single simulation of continuous dosing or appropriate superposition logic.",
+    "Test 4: Invalid Data Handling (Negative Volume). Parameters: CL=-4, V=40, ka=1, F=0.5. Run solver. Expected behavior: Raise ValueError or NaN result indicating invalid physical parameter.",
+    "Test 5: Extreme Value Case (Zero Clearance). Parameters: CL=0, V=40, ka=1, F=0.5. Run solver. Expected behavior: Model breaks down as k=CL/V becomes 0; verify error handling or infinite concentration accumulation in central compartment logic.",
+    "Test 6: Zero Dose Handling. Parameters: CL=4, V=40, ka=1, F=0.5. Input dose amount = 0. Run solver. Expected behavior: Concentration remains exactly 0 for all t > 0.",
+    "Test 7: Time Negative Handling. Parameters: CL=4, V=40, ka=1, F=0.5. Evaluate analytic formula at t=-5. Expected behavior: Return 0 or NaN as concentration cannot exist before administration.",
+    "Test 8: Ka Limit Verification (ka approaches k). Parameters: CL=4, V=40, ka=0.999, F=0.5. Run solver and compare against limit case (ka=k) results to ensure continuity in the model behavior near the absorption rate equals elimination rate boundary."
+  ],
+  "assumptions": [
+    "Synthetic parameters only; no patient data.",
+    "Model assumes linear kinetics and one-compartment distribution.",
+    "scipy solve_ivp is the reference implementation for ODE comparison."
+  ],
+  "risks": [],
+  "questions": []
+}
