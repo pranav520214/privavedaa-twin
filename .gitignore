@@ -12,3 +12,4 @@ artifacts/
 .context/autopilot*.lock
 .context/autopilot.stop
 .tasks/results/
+prompts/import asyncio.py

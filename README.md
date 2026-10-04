@@ -1,41 +1,108 @@
-# Adaptive transplant digital twin research platform
+# Privavedaa Transplant Digital Twin Platform 🏥
 
-**RESEARCH SIMULATION — NOT FOR CLINICAL DECISION-MAKING.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Code Quality: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Type Checked: Mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg)](https://mypy-lang.org/)
 
-This project evaluates whether sequential Bayesian updating improves predictions of
-withheld synthetic pharmacokinetic observations compared with a static population prior.
-It does not recommend medicines, compute real patient doses, or establish clinical validity.
+> **Adaptive Synthetic Bayesian Pharmacokinetic Research Simulation Platform**
 
-The initial model uses arbitrary synthetic parameters. No published tacrolimus model
-has been independently reproduced here. See [scientific scope](docs/scientific_scope.md).
-
-## Setup
-
-Python 3.12+ is required. From this directory on Windows:
-
-```powershell
-py -3.12 -m venv .venv
-.venv\Scripts\python -m pip install -e ".[bayes,ui,dev]"
-.venv\Scripts\python -m pytest
-.venv\Scripts\ruff check .
-.venv\Scripts\ruff format --check .
-.venv\Scripts\mypy src/ tools/
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ⚠️ RESEARCH SIMULATION ONLY • NOT FOR CLINICAL USE • SYNTHETIC DATASETS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Ollama is optional for running the scientific core. It is used for bounded development
-proposals, never for numerical calculations. See [local workers](docs/ollama_agents.md).
+> [!CAUTION]
+> **RESEARCH SIMULATION ONLY — STRICTLY NON-CLINICAL**:  
+> This project investigates mathematical hypotheses regarding whether sequential Bayesian updating improves predictions of withheld synthetic pharmacokinetic observations compared with a static population prior. It **does NOT** compute real patient doses, recommend medications, or claim clinical safety/efficacy. Initial simulations operate strictly on arbitrary synthetic parameters. See [Scientific Scope](docs/scientific_scope.md).
 
-## Local autopilot development
+---
 
-Start the proposal-only development loop from PowerShell:
+## ✨ Research Focus
 
+1. **Sequential Bayesian Inference:** Evaluating Bayesian updating algorithms on non-linear synthetic pharmacokinetic curves (tacrolimus analog models).
+2. **Prior vs. Posterior Convergence:** Measuring prediction error reduction as synthetic therapeutic drug monitoring (TDM) trough observations are iteratively ingested.
+3. **Bounded Autopilot Development:** Proposal-only developer loop ensuring local worker models suggest changes without unsupervised repository mutation.
+
+---
+
+## 🏗️ Architecture
+
+```text
+🔬 Synthetic Population Prior
+         │
+         ▼
+ ┌────────────────────────────────────────┐
+ │   Bayesian Updating Engine (PyMC/MCMC) │ ◄── Withheld Synthetic Trough Data
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │     Posterior Parameter Estimation     │ ──► Clearance (CL) & Volume (Vd)
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │      Comparative Error Analysis        │ ──► Evaluation vs Static Prior
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ 📋 Phase Gate Verification Ledger (.context/phase_gates.md)
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+* Python 3.12+
+* Optional: Local [Ollama](https://ollama.ai) instance for autopilot proposal generation
+
+### 2. Installation & Verification
+```bash
+git clone https://github.com/pranav520214/privavedaa-twin.git
+cd privavedaa-twin
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install with development dependencies
+pip install -e ".[bayes,ui,dev]"
+
+# Run quality checks
+pytest
+ruff check .
+ruff format --check .
+mypy src/ tools/
+```
+
+---
+
+## 🤖 Bounded Autopilot Development
+
+To execute the local proposal-only worker loop:
 ```powershell
 .venv\Scripts\python tools\autopilot_development.py --watch --max-tasks 12
 ```
 
-It reads the curated queue in `.tasks/queue.json`, sends one scoped task at a time to
-the installed loopback Ollama model, validates the structured response, and writes it to
-`.tasks/results/`. It never applies a patch, executes worker code, downloads a model, or
-handles patient records. Inspect status with `--status`; request a stop with `--stop`.
-Only an orchestrator review can move a proposal into the repository.
-Implementation status and evidence are maintained in `.context/phase_gates.md`.
+* Reads tasks from `.tasks/queue.json`.
+* Submits scoped requests to local Ollama.
+* Validates structured patches and writes proposals to `.tasks/results/`.
+* **Zero autonomous mutation:** Patches require explicit human review to enter the codebase.
+
+---
+
+## 📚 Documentation
+* [System Architecture](docs/architecture.md): Modular decomposition and data flow.
+* [Bayesian Model Formulation](docs/bayesian_model.md): Priors, likelihoods, and parameter distributions.
+* [Scientific Scope & Limitations](docs/scientific_scope.md): Ethical boundaries and model constraints.
+* [Validation Protocol](docs/validation_protocol.md): Empirical test criteria and phase gate metrics.
+* [Execution Flows](docs/flows.md): Sequential updating and proposal loops.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
